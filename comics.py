@@ -49,20 +49,22 @@ def unpac_file(file_name):
 		#temp_path1 = f'{pwd}/temp/{clean_name}'
 		r1.extractall(path=temp_path1)
 		extract_files = os.listdir(temp_path1)
-
-	if len(extract_files) < 2:
-		file_name2 = os.listdir(temp_path1)
-		temp_path2 = os.path.join(temp_path1, file_name2[0])
-		extract_files = os.listdir(temp_path2)
-		jf = find_junk_file(clean_name, extract_files)
-		os.remove(os.path.join(temp_path2, jf))
-		print(f'REMOVED: {jf}')
-	else:
-		jf = find_junk_file(clean_name ,extract_files)
-		os.remove(os.path.join(temp_path1, jf))
-		print(f'REMOVED: {jf}')
-	#print(extract_files)
-	rar_it(clean_name)
+	try:
+		if len(extract_files) < 2:
+			file_name2 = os.listdir(temp_path1)
+			temp_path2 = os.path.join(temp_path1, file_name2[0])
+			extract_files = os.listdir(temp_path2)
+			jf = find_junk_file(clean_name, extract_files)
+			os.remove(os.path.join(temp_path2, jf))
+			print(f'REMOVED: {jf}')
+		else:
+			jf = find_junk_file(clean_name ,extract_files)
+			os.remove(os.path.join(temp_path1, jf))
+			print(f'REMOVED: {jf}')
+		#print(extract_files)
+		rar_it(clean_name)
+	except UnboundLocalError as e:
+		print(f"{file_name} IS BAD FILE!!!")
 
 def find_junk_file(file_name, file_list):
 	for file in file_list:
