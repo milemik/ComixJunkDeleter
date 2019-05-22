@@ -1,5 +1,6 @@
 import os
 import rarfile
+#from rarfile import RarCannotExec
 import shutil
 import zipfile
 from pathlib import Path
@@ -42,9 +43,12 @@ def unpac_file(file_name):
 		zfile.extractall(temp_path1)
 		extract_files = os.listdir(temp_path1)
 	if file_name.endswith('r'):
-		rarfile.UNRAR_TOOL='unrarx'
+		rarfile.UNRAR_TOOL='unrar'
+		#rarfile.UNRAR_TOOL='/Users/Izzy/Software/UnRarX'
 		r1 = rarfile.RarFile(os.path.join('files', file_name))
 		r1.extractall(path=temp_path1)
+		with rarfile.RarFile(os.path.join('files', file_name)) as f:
+			f.extractall(path=temp_path1)
 		extract_files = os.listdir(temp_path1)
 	try:
 		if len(extract_files) < 2:
