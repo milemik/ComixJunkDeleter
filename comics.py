@@ -42,7 +42,7 @@ def unpac_file(file_name):
 		zfile.extractall(temp_path1)
 		extract_files = os.listdir(temp_path1)
 	if file_name.endswith('r'):
-                rarfile.UNRAR_TOOL='unrar'
+		rarfile.UNRAR_TOOL='unrarx'
 		r1 = rarfile.RarFile(os.path.join('files', file_name))
 		r1.extractall(path=temp_path1)
 		extract_files = os.listdir(temp_path1)
