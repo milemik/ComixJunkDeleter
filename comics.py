@@ -92,15 +92,22 @@ def find_junk_file(file_name, file_list):
 	return junk_file
 
 def checking(file_name, fl_file):
-	f_list = file_name.split()
+	import re
+	#f_list = file_name.split()
+	f_list = re.findall('[a-z]+', file_name.lower())
+	fl_list = re.findall('[a-z]+', fl_file.lower())
+	#print(f"{f_list[0]} == {fl_list[0]}")
 	errors = 0
-	for f in f_list:
-		if f.lower() not in fl_file.lower():
-			errors += 1
-	if errors >= 2:
+	if f_list[0] != fl_list[0]:
 		return False
 	else:
-		return True   
+		for f in f_list:
+			if f not in fl_file.lower():
+				errors += 1
+		if errors >= 2:
+			return False
+		else:
+			return True   
 
 
 def rar_it(file_name):
