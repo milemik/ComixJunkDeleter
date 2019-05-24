@@ -76,24 +76,14 @@ def unpac_file(file_name):
 				extract_files = os.listdir(temp_path2)
 			#print(f"extract files are: {extract_files}")
 			jf = find_junk_file(clean_name, extract_files)
-			if len(jf) > 0:
-				for f in jf:
-					if 'cover' not in f.lower() and '0' not in f:
-						os.remove(os.path.join(temp_path2, f))
-						print(f'REMOVED: {f}')
-			else:
-				print("Didn't find any junk images")
+			os.remove(os.path.join(temp_path2, jf))
+			print(f'REMOVED: {jf}')
 			
 		else:
 			#print("Len of extract_files is upper than 2")
 			jf = find_junk_file(clean_name ,extract_files)
-			if len(jf) > 0:
-				for f in jf:
-					if 'cover' not in f.lower() and '0' not in f:
-						os.remove(os.path.join(temp_path1, f))
-						print(f'REMOVED: {f}')
-			else:
-				print("Could not find any junk images")
+			os.remove(os.path.join(temp_path1, jf))
+			print(f'REMOVED: {jf}')
 			
 		#print(extract_files)
 		#print("RARIG FILES")
@@ -102,32 +92,9 @@ def unpac_file(file_name):
 		print(f"{file_name} IS BAD FILE!!!")
 
 def find_junk_file(file_name, file_list):
-	import re
-	junk_file = []
-	checking = {}
-	num = 0
-	num1 = 1
-	for file in file_list:
-		fi = re.findall('[a-z]+', file.lower())
-		fi_tuple = tuple(p for p in fi)
-		if fi_tuple in checking:
-			num+=1
-			checking[fi_tuple] = num
-		else:
-			num1+=1
-			checking[fi_tuple] = num1
-	#print(checking)
-	max_value = max(checking.values())
-	junks = []
-	for x in checking:
-		if checking[x] != max_value:
-			junks.append(x)
-	for di in file_list:
-		di_check = re.findall('[a-z]+', di.lower())
-		di_check_tuple = tuple(i for i in di_check)
-		if di_check_tuple in junks:
-			junk_file.append(di)
-	#print(f"junk_file is {junk_file}")
+	file_list.sort()
+	junk_file = file_list[-1]
+	print(f"Junk file is: {junk_file}")
 	return junk_file
 '''
 def delete_junk(file_name, fl_file):
