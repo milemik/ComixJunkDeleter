@@ -9,6 +9,21 @@ from pathlib import Path
 pwd = os.getcwd()
 
 
+def question():
+	
+	while True:
+		answer = input("What image do you want to delete? First or Last enter (F or L)\n")
+		if answer.lower() == 'f':
+			print("You choose to delete FIRST image")
+			return 0
+			break
+		elif answer.lower() == 'l':
+			print("You choose to delete LAST image")
+			return -1
+			break
+		else:
+			print("Wrong answer plase answer with F(FIRST) or L(LAST)")
+
 def create_temp():
 	try:
 		os.mkdir('temp')
@@ -33,7 +48,7 @@ def collect_files():
 	return files
 
 
-def unpac_file(file_name):
+def unpac_file(q_num, file_name):
 	print(f"Unpacing file {file_name}")
 	clean_name = file_name.split(".")[0]
 	temp_path1 = os.path.join('temp', clean_name)
@@ -75,13 +90,13 @@ def unpac_file(file_name):
 				temp_path2 = os.path.join(temp_path1, file_name2[1])
 				extract_files = os.listdir(temp_path2)
 			#print(f"extract files are: {extract_files}")
-			jf = find_junk_file(clean_name, extract_files)
+			jf = find_junk_file(q_num, extract_files)
 			os.remove(os.path.join(temp_path2, jf))
 			print(f'REMOVED: {jf}')
 			
 		else:
 			#print("Len of extract_files is upper than 2")
-			jf = find_junk_file(clean_name ,extract_files)
+			jf = find_junk_file(q_num ,extract_files)
 			os.remove(os.path.join(temp_path1, jf))
 			print(f'REMOVED: {jf}')
 			
@@ -91,9 +106,9 @@ def unpac_file(file_name):
 	except UnboundLocalError as e:
 		print(f"{file_name} IS BAD FILE!!!")
 
-def find_junk_file(file_name, file_list):
+def find_junk_file(ans_num, file_list):
 	file_list.sort()
-	junk_file = file_list[-1]
+	junk_file = file_list[ans_num]
 	print(f"Junk file is: {junk_file}")
 	return junk_file
 '''
@@ -108,12 +123,13 @@ def rar_it(file_name):
 	print("RARED")
 
 def main():
+	ans = question()
 	print('Starting the program')
 	print('Creating temperary file')
 	create_temp()
 	fs = collect_files()
 	for f in fs:
-		unpac_file(f)
+		unpac_file(ans, f)
 	print('Finshed...')
 	print('Deleting temp files')
 	remove_temp()
